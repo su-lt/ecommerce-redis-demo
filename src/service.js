@@ -22,7 +22,6 @@ class EcommerceService {
         const cartKey = `cart:${userId}`
         const productKey = `product:${productId}`
         const quantityString = String(quantity)
-        console.log(cartKey, productKey, quantityString)
 
         try {
             const result = await redisClient.eval(script, {
