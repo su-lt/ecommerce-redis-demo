@@ -43,16 +43,31 @@ It uses Redis for managing inventory and cart data efficiently, ensuring high pe
 
 ## API
 
+### POST method - http://localhost:3333/cart/:userId/add
+
 -   Adds a specified quantity of a product to the user's cart if there is enough stock available.
--   Endpoints: POST method - http://localhost:3333/cart/:userId/add
--   with body { productId, quantity }
 
 -   Parameters
     userId (string): The ID of the user.
-    productId (string): The ID of the product.
-    quantity (number): The quantity of the product to add to the cart.
+    productId (string): body request - The ID of the product
+    quantity (number): body request - The quantity of the product to add to the cart.
 
 -   Returns
     { message: "OK" } if the product was successfully added to the cart.
     { message: "Out of stock" } if there is not enough stock available.
     { message: "Not OK" } if there was an error during the operation.
+
+### GET method - http://localhost:3333/product/:productId
+
+-   Get product information database with redis cache. Improved loading performance x10
+
+-   Parameters
+    productId (string): The ID of the product
+
+-   Returns
+    {
+    message: {
+    "\_status", type of data - "direct"/"cache": "direct" if product not found cache and "cache" if found cache
+    "\_stock", quantity of product stock
+    }  
+    }

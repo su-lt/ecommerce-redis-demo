@@ -9,6 +9,7 @@ const app = express()
 // middlewares
 
 app.use(express.json())
+app.get("/product/:productId", EcommerceController.getProduct)
 app.post("/cart/:userId/add", EcommerceController.addToCart)
 
 module.exports = app

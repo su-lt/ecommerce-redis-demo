@@ -18,6 +18,17 @@ class EcommerceController {
         })
         return res.status(200).json(metadata)
     }
+
+    // GET - http://localhost:3333/product/:productId
+    getProduct = async (req, res, next) => {
+        /**
+         * productId: req.params.productId
+         */
+        const metadata = await EcommerceService.getProduct({
+            productId: req.params.productId,
+        })
+        return res.status(200).json(metadata)
+    }
 }
 
 module.exports = new EcommerceController()
