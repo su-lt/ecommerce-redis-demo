@@ -46,6 +46,7 @@ It uses Redis for managing inventory and cart data efficiently, ensuring high pe
 ### POST method - http://localhost:3333/cart/:userId/add
 
 -   Adds a specified quantity of a product to the user's cart if there is enough stock available.
+    use lua script for atomic operations update quantity of stock
 
 -   Parameters
     userId (string): The ID of the user.
@@ -65,9 +66,10 @@ It uses Redis for managing inventory and cart data efficiently, ensuring high pe
     productId (string): The ID of the product
 
 -   Returns
-    {
-    message: {
-    "\_status", type of data - "direct"/"cache": "direct" if product not found cache and "cache" if found cache
-    "\_stock", quantity of product stock
-    }  
-    }
+    ```sh
+    message:
+        _status: "direct"/"cache",
+        _stock: number,
+    ```
+    -   \_status: type of data - "direct"/"cache": "direct" if product not found cache and "cache"
+    -   \_stock: quantity of product stock
