@@ -1,9 +1,9 @@
-const redis = require("redis")
+const Redis = require("ioredis")
 
 const REDIS_CONNECT_TIMEOUT = 10000
 const REDIS_CONNECT_MESSAGE = "Service connect redis failed !!!"
 
-let client = {},
+let clients = {},
     statusConnect = {
         CONNECT: "connect",
         END: "end",
@@ -42,24 +42,31 @@ const handleEventConnection = ({ connectionRedis }) => {
     })
 }
 
-const initRedis = () => {
-    if (!client.instanceConnect) {
-        client.instanceConnect = redis.createClient()
-        // connect redis
-        client.instanceConnect.connect()
+const initRedis = ({
+    IO_REDIS_ENABLED,
+    IO_REDIS_HOST = "localhost",
+    IO_REDIS_PORT = 6379,
+}) => {
+    if (IO_REDIS_ENABLED) {
+        if (!clients.instanceConnect) {
+            clients.instanceConnect = new Redis({
+                host: IO_REDIS_HOST,
+                port: IO_REDIS_PORT,
+            })
+        }
+
+        handleEventConnection({
+            connectionRedis: clients.instanceConnect,
+        })
     }
-
-    handleEventConnection({
-        connectionRedis: client.instanceConnect,
-    })
 }
-initRedis()
 
-const getRedis = () => client
+const getRedis = () => clients
 
-const closeRedis = () => client.instanceConnect.disconnect()
+const closeRedis = () => clients.instanceConnect.disconnect()
 
 module.exports = {
+    initRedis,
     getRedis,
     closeRedis,
 }

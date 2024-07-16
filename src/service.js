@@ -54,11 +54,11 @@ class EcommerceService {
             if (!foundProduct) return { message: "Product not found" }
 
             // set cache
-            await redisClient.hSet(productKey, {
+            await redisClient.hset(productKey, {
                 stock: foundProduct.p_stock,
             })
             // set ttl - 5 seconds
-            await redisClient.pExpire(productKey, 5000)
+            await redisClient.pexpire(productKey, 5000)
 
             return {
                 message: {
@@ -71,7 +71,7 @@ class EcommerceService {
         return {
             message: {
                 _status: "cache",
-                _stock: await redisClient.hGet(productKey, "stock"),
+                _stock: await redisClient.hget(productKey, "stock"),
             },
         }
     }

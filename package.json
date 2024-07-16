@@ -7,8 +7,8 @@
     "license": "MIT",
     "dependencies": {
         "express": "^4.19.2",
-        "mongoose": "^8.5.0",
-        "redis": "^4.6.15"
+        "ioredis": "^5.4.1",
+        "mongoose": "^8.5.0"
     },
     "scripts": {
         "start": "node --watch server.js"

@@ -1,7 +1,9 @@
 // call databases
 require("./dbs/mongo.db")
-require("./dbs/redis.db")
-
+const { initRedis } = require("./dbs/redis.db")
+initRedis({
+    IO_REDIS_ENABLED: true,
+})
 const EcommerceController = require("./src/controller")
 const express = require("express")
 const app = express()
