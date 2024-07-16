@@ -1,0 +1,16 @@
+{
+    "name": "redis",
+    "version": "1.0.0",
+    "description": "ecommerce demo with nodejs mongoose redis optimistic lock",
+    "main": "index.js",
+    "author": "tuanlm",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.19.2",
+        "mongoose": "^8.5.0",
+        "redis": "^4.6.15"
+    },
+    "scripts": {
+        "start": "node --watch server.js"
+    }
+}
