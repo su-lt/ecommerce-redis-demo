@@ -1,6 +1,6 @@
 "use strict"
-const { getRedis } = require("../dbs/redis.db")
 const { Product } = require("./models")
+const { getRedis } = require("../dbs/redis.db")
 const { instanceConnect: redisClient } = getRedis()
 
 const script = `
@@ -45,33 +45,23 @@ class EcommerceService {
     }
 
     static getProduct = async ({ productId }) => {
+        // check valid product id here
+
+        // get product in dbs
+        const foundProduct = await Product.findById(productId)
+        const stock = foundProduct ? foundProduct.p_stock : null
+        // set cache
         const productKey = `product:${productId}`
-
-        // check redis cache
-        const foundCache = await redisClient.exists(productKey)
-        if (!foundCache) {
-            const foundProduct = await Product.findById(productId)
-            if (!foundProduct) return { message: "Product not found" }
-
-            // set cache
-            await redisClient.hset(productKey, {
-                stock: foundProduct.p_stock,
-            })
-            // set ttl - 5 seconds
-            await redisClient.pexpire(productKey, 5000)
-
-            return {
-                message: {
-                    _status: "direct",
-                    _stock: foundProduct.p_stock,
-                },
-            }
-        }
+        await redisClient.hset(productKey, {
+            stock,
+        })
+        // set ttl - 15 seconds
+        await redisClient.expire(productKey, 15)
 
         return {
             message: {
-                _status: "cache",
-                _stock: await redisClient.hget(productKey, "stock"),
+                _status: "direct",
+                _stock: stock,
             },
         }
     }
