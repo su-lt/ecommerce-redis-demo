@@ -56,10 +56,9 @@ It uses Redis for managing inventory and cart data efficiently, ensuring high pe
 -   Returns
 
     ```sh
-    message:
-        "OK"
-        "Out of stock"
-        "Not OK"
+        message: "OK"
+        message: "Out of stock"
+        message: "Not OK"
     ```
 
     -   "OK" - if the product was successfully added to the cart.
