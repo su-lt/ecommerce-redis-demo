@@ -54,9 +54,17 @@ It uses Redis for managing inventory and cart data efficiently, ensuring high pe
     quantity (number): body request - The quantity of the product to add to the cart.
 
 -   Returns
-    { message: "OK" } if the product was successfully added to the cart.
-    { message: "Out of stock" } if there is not enough stock available.
-    { message: "Not OK" } if there was an error during the operation.
+
+    ```sh
+    message:
+        "OK"
+        "Out of stock"
+        "Not OK"
+    ```
+
+    -   "OK" - if the product was successfully added to the cart.
+    -   "Out of stock" - if there is not enough stock available.
+    -   "Not OK" - if there was an error during the operation.
 
 ### GET method - http://localhost:3333/product/:productId
 
